@@ -9,7 +9,7 @@ namespace MasterStream_2.Core.API.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-           return Ok("Welcome to MasterStream Project");
+            return Ok("Welcome to MasterStream Project");
         }
     }
 }

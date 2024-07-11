@@ -3,7 +3,6 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using STX.EFxceptions.SqlServer;
 
@@ -32,7 +31,7 @@ namespace MasterStream_2.Core.API.Brokers.Storages
         private async ValueTask<T> SelectAsync<T>(params object[] objectIds) where T : class =>
             await this.FindAsync<T>(objectIds);
 
-        private  async ValueTask<T> UpdateAsync<T>(T @object)
+        private async ValueTask<T> UpdateAsync<T>(T @object)
         {
             this.Entry(@object).State = EntityState.Modified;
             await this.SaveChangesAsync();
