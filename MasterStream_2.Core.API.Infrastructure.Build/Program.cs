@@ -53,7 +53,7 @@ namespace WatchWave.Api.Infrastructure.Build
 
                                     TargetDotNetVersion = new TargetDotNetVersion
                                     {
-                                        DotNetVersion = "8.0.204"
+                                        DotNetVersion = "8.0.303"
                                     }
                                 },
 
