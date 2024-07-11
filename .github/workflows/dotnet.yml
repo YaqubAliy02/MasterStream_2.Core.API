@@ -2,10 +2,10 @@ name: WatchWave Build Pipeline
 on:
   push:
     branches:
-    - main
+    - master
   pull_request:
     branches:
-    - main
+    - master
 jobs:
   build:
     runs-on: windows-2022
@@ -15,11 +15,11 @@ jobs:
     - name: Setting Up .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 8.0.204
+        dotnet-version: 8.0.303
         include-prerelease: false
     - name: Restoring Nuget Packages
       run: dotnet restore
     - name: Building Project
       run: dotnet build --no-restore
-    - name: Running Tests
+    - name: Run Tests
       run: dotnet test --no-build --verbosity normal
