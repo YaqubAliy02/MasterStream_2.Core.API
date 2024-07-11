@@ -1,3 +1,8 @@
+//--------------------------
+// TARTEEB LLC               
+// ALL RIGHTS RESERVED      
+//--------------------------
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterStream_2.Core.API.Controllers
