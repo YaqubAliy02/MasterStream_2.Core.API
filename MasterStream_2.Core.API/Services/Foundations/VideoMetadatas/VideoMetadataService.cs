@@ -8,7 +8,7 @@ using MasterStream_2.Core.API.Brokers.Loggings;
 using MasterStream_2.Core.API.Brokers.Storages;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 
-namespace MasterStream_2.Core.API.Services.VideoMetadatas
+namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 {
     public class VideoMetadataService : IVideoMetadataService
     {
