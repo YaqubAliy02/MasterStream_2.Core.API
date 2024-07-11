@@ -1,14 +1,14 @@
-﻿//--------------------------
-// TARTEEB LLC               
-// ALL RIGHTS RESERVED      
-//--------------------------
+﻿//==================================================
+// Copyright (c) Coalition of Good-Hearted Engineers
+// Free To Use To Find Comfort and Peace
+//==================================================
 
 using ADotNet.Clients;
 using ADotNet.Models.Pipelines.GithubPipelines.DotNets;
 using ADotNet.Models.Pipelines.GithubPipelines.DotNets.Tasks;
 using ADotNet.Models.Pipelines.GithubPipelines.DotNets.Tasks.SetupDotNetTaskV1s;
 
-namespace MasterStream_2.Core.API.Infrastructure.Build
+namespace WatchWave.Api.Infrastructure.Build
 {
     public class Program
     {
@@ -69,7 +69,7 @@ namespace MasterStream_2.Core.API.Infrastructure.Build
 
                                 new TestTask
                                 {
-                                    Name = "Run Tests"
+                                    Name = "Running Tests"
                                 }
                             }
                         }
