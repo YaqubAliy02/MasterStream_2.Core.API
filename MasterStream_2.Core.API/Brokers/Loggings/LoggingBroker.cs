@@ -11,7 +11,7 @@ namespace MasterStream_2.Core.API.Brokers.Loggings
 
         public LoggingBroker(ILogger<LoggingBroker> loggingBroker)
         {
-           this.loggingBroker = loggingBroker;
+            this.loggingBroker = loggingBroker;
         }
         public void LogCritical(Exception exception) =>
             this.loggingBroker.LogCritical(exception.Message);
