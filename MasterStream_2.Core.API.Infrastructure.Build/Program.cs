@@ -69,7 +69,7 @@ namespace WatchWave.Api.Infrastructure.Build
 
                                 new TestTask
                                 {
-                                    Name = "Running Tests"
+                                    Name = "Run Tests"
                                 }
                             }
                         }
