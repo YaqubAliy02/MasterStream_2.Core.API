@@ -1,0 +1,25 @@
+name: WatchWave Build Pipeline
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+    - name: Checking Out Code
+      uses: actions/checkout@v2
+    - name: Setting Up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 8.0.204
+        include-prerelease: false
+    - name: Restoring Nuget Packages
+      run: dotnet restore
+    - name: Building Project
+      run: dotnet build --no-restore
+    - name: Running Tests
+      run: dotnet test --no-build --verbosity normal
