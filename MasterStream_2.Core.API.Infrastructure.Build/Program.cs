@@ -8,7 +8,7 @@ using ADotNet.Models.Pipelines.GithubPipelines.DotNets;
 using ADotNet.Models.Pipelines.GithubPipelines.DotNets.Tasks;
 using ADotNet.Models.Pipelines.GithubPipelines.DotNets.Tasks.SetupDotNetTaskV1s;
 
-namespace WatchWave.Api.Infrastructure.Build
+namespace MasterStream_2.Core.API.Infrastructure.Build
 {
     public class Program
     {
@@ -53,7 +53,7 @@ namespace WatchWave.Api.Infrastructure.Build
 
                                     TargetDotNetVersion = new TargetDotNetVersion
                                     {
-                                        DotNetVersion = "8.0.204"
+                                        DotNetVersion = "8.0.303"
                                     }
                                 },
 
@@ -69,7 +69,7 @@ namespace WatchWave.Api.Infrastructure.Build
 
                                 new TestTask
                                 {
-                                    Name = "Running Tests"
+                                    Name = "Run Tests"
                                 }
                             }
                         }
