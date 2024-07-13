@@ -23,9 +23,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<VideoMetadata> AddVideoMetadataAsync(VideoMetadata videoMetadata)
-        {
-            throw new NotImplementedException();
-        }
+        public async ValueTask<VideoMetadata> AddVideoMetadataAsync(VideoMetadata videoMetadata) =>
+            await this.storageBroker.InsertVideoMetadataAsync(videoMetadata);
     }
 }
