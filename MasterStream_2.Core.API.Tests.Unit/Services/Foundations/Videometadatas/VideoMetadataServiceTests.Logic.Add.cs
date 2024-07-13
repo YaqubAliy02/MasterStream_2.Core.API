@@ -3,7 +3,6 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
@@ -28,14 +27,14 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                     ReturnsAsync(storageVideoMetadata);
 
             //when
-            VideoMetadata actualVideoMetadata = 
+            VideoMetadata actualVideoMetadata =
                 await this.videoMetadataService.AddVideoMetadataAsync(inputVideoMetadata);
 
             //then
             actualVideoMetadata.Should().BeEquivalentTo(expectedVideoMetadata);
-            
+
             this.storageBrokerMock.Verify(broker =>
-                broker.InsertVideoMetadataAsync(inputVideoMetadata), 
+                broker.InsertVideoMetadataAsync(inputVideoMetadata),
                     Times.Once());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
