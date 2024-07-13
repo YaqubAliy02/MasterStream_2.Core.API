@@ -14,21 +14,16 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
-        private readonly IDateTimeBroker dateTimeBroker;
 
         public VideoMetadataService(
             IStorageBroker storageBroker,
-            ILoggingBroker loggingBroker,
-            IDateTimeBroker dateTimeBroker)
+            ILoggingBroker loggingBroker)
         {
             this.storageBroker = storageBroker;
             this.loggingBroker = loggingBroker;
-            this.dateTimeBroker = dateTimeBroker;
         }
 
-        public ValueTask<VideoMetadata> AddVideoMetadataAsync(VideoMetadata videoMetadata)
-        {
-            throw new NotImplementedException();
-        }
+        public async ValueTask<VideoMetadata> AddVideoMetadataAsync(VideoMetadata videoMetadata) =>
+            await this.storageBroker.InsertVideoMetadataAsync(videoMetadata);
     }
 }

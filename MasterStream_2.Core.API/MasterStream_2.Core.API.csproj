@@ -21,4 +21,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="MasterStream_2.Core.API.Tests.Unit" />
+	</ItemGroup>
 </Project>
