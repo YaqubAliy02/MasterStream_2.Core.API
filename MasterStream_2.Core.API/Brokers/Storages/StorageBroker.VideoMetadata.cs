@@ -12,7 +12,7 @@ namespace MasterStream_2.Core.API.Brokers.Storages
     {
         private DbSet<VideoMetadata> VideoMetadatas { get; set; }
 
-        public async ValueTask<VideoMetadata> InsertVideoMetadata(VideoMetadata videoMetadata) =>
+        public async ValueTask<VideoMetadata> InsertVideoMetadataAsync(VideoMetadata videoMetadata) =>
             await this.InsertAsync(videoMetadata);
 
         public IQueryable<VideoMetadata> SellectAllVideoMetadatas() =>
