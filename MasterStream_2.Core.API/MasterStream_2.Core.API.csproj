@@ -19,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="STX.EFxceptions.SqlServer" Version="0.1.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Xeption" Version="2.6.0" />
   </ItemGroup>
 
 	<ItemGroup>
