@@ -32,7 +32,6 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
-
         private static VideoMetadata CreateRandomVideoMetadata() =>
             CreateRandomVideoMetadataFiller(dates: CreateRandomDateTimeOffset()).Create();
 
