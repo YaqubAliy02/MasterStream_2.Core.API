@@ -73,6 +73,9 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                 values: "Id is required");
 
             invalidVideoMetadataException.AddData(
+                key: nameof(VideoMetadata.Title),
+                values: "Text is required");
+            invalidVideoMetadataException.AddData(
                 key: nameof(VideoMetadata.BlobPath),
                 values: "Text is required");
 

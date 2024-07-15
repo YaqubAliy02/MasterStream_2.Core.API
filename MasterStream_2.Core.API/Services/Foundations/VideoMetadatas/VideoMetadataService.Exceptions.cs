@@ -24,6 +24,10 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             {
                 throw CreateAndLogValidationException(nullVideoMetadataException);
             }
+            catch(InvalidVideoMetadataException invalidVideoMetadataException)
+            {
+                throw CreateAndLogValidationException(invalidVideoMetadataException);
+            }
         }
 
         private Exception CreateAndLogValidationException(Xeption exception)
