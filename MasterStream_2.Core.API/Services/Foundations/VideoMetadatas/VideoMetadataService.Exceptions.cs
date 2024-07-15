@@ -5,6 +5,7 @@
 
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
+using Xeptions;
 
 namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 {
@@ -25,10 +26,12 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             }
         }
 
-        private Exception CreateAndLogValidationException(NullVideoMetadataException nullVideoMetadataException)
+        private Exception CreateAndLogValidationException(Xeption exception)
         {
             var videoMetadataValidationException =
-                 new VideoMetadataValidationException(nullVideoMetadataException);
+                 new VideoMetadataValidationException(
+                      message: "Video metadata validation the error occured, fix errors and try again.",
+                    innerException: exception);
 
             this.loggingBroker.LogError(videoMetadataValidationException);
 
