@@ -3,14 +3,13 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using MasterStream_2.Core.API.Brokers.DateTimes;
 using MasterStream_2.Core.API.Brokers.Loggings;
 using MasterStream_2.Core.API.Brokers.Storages;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 
 namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 {
-    public class VideoMetadataService : IVideoMetadataService
+    public partial class VideoMetadataService : IVideoMetadataService
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
@@ -23,7 +22,11 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<VideoMetadata> AddVideoMetadataAsync(VideoMetadata videoMetadata) =>
-            await this.storageBroker.InsertVideoMetadataAsync(videoMetadata);
+        public ValueTask<VideoMetadata> AddVideoMetadataAsync(VideoMetadata videoMetadata) =>
+            TryCatch(async () =>
+            {
+                ValidateVideoMetadataOnAdd(videoMetadata);
+                return await this.storageBroker.InsertVideoMetadataAsync(videoMetadata);
+            });
     }
 }
