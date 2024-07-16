@@ -7,7 +7,7 @@ namespace MasterStream_2.Core.API.Brokers.DateTimes
 {
     public class DateTimeBroker : IDateTimeBroker
     {
-        public DateTimeOffset GetCurrentDateTimeBroker() =>
+        public DateTimeOffset GetCurrentDateTimeOffset() =>
             DateTimeOffset.UtcNow;
     }
 }

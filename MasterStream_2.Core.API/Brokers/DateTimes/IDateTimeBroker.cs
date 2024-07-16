@@ -7,6 +7,6 @@ namespace MasterStream_2.Core.API.Brokers.DateTimes
 {
     public interface IDateTimeBroker
     {
-        DateTimeOffset GetCurrentDateTimeBroker();
+        DateTimeOffset GetCurrentDateTimeOffset();
     }
 }

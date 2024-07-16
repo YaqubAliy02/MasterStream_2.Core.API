@@ -3,6 +3,7 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
@@ -17,7 +18,8 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
         public async Task ShouldAddVideoMetadataAsync()
         {
             //given 
-            VideoMetadata randomVideoMetadata = CreateRandomVideoMetadata();
+            DateTimeOffset randomDateTimeOffset = CreateRandomDateTimeOffset();
+            VideoMetadata randomVideoMetadata = CreateRandomVideoMetadata(randomDateTimeOffset);
             VideoMetadata inputVideoMetadata = randomVideoMetadata;
             VideoMetadata storageVideoMetadata = inputVideoMetadata;
             VideoMetadata expectedVideoMetadata = storageVideoMetadata;
@@ -39,6 +41,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
