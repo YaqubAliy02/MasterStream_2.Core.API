@@ -3,9 +3,8 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
-using System.Data;
+using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 
 namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 {
@@ -49,14 +48,14 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             Message = "Date is required"
         };
 
-        private void Validate(params(dynamic Rule, string Parameter)[] validations)
+        private void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidVideoMetadataException = 
+            var invalidVideoMetadataException =
                 new InvalidVideoMetadataException(message: "Video metadata is invalid");
 
-            foreach((dynamic rule, string parameter) in validations)
+            foreach ((dynamic rule, string parameter) in validations)
             {
-                if(rule.Condition)
+                if (rule.Condition)
                 {
                     invalidVideoMetadataException.UpsertDataList(
                         parameter,

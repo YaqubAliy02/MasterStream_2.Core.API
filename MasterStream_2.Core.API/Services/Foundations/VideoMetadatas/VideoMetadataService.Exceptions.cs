@@ -5,6 +5,7 @@
 
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
+using Microsoft.Data.SqlClient;
 using Xeptions;
 
 namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
@@ -20,14 +21,35 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             {
                 return await returningVideoMetadataFunction();
             }
-            catch(NullVideoMetadataException nullVideoMetadataException)
+            catch (NullVideoMetadataException nullVideoMetadataException)
             {
                 throw CreateAndLogValidationException(nullVideoMetadataException);
             }
-            catch(InvalidVideoMetadataException invalidVideoMetadataException)
+            catch (InvalidVideoMetadataException invalidVideoMetadataException)
             {
                 throw CreateAndLogValidationException(invalidVideoMetadataException);
             }
+            catch (SqlException sqlException)
+            {
+                var failedVideoMetadataStorageException =
+                    new FailedVideoMetadataStorageException(
+                        message: "Failed video metadata error occured, contact support.",
+                        innerException: sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
+            }
+        }
+
+        private VideoMetadataDependencyException CreateAndLogCriticalDependencyException(FailedVideoMetadataStorageException failedVideoMetadataStorageException)
+        {
+            var videoMetadataDependencyException =
+                new VideoMetadataDependencyException(
+                    message: "Video metadata dependency error occured, fix the errors and try again.",
+                    innerException: failedVideoMetadataStorageException);
+
+            this.loggingBroker.LogCritical(videoMetadataDependencyException);
+
+            return videoMetadataDependencyException;
         }
 
         private Exception CreateAndLogValidationException(Xeption exception)
