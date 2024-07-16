@@ -72,7 +72,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 
             var alreadyExistVideoMetadataException =
                 new AlreadyExistVideoMetadataException(
-                    message: "Video metadata already exist, please try again",
+                    message: "Video metadata already exist, please try again.",
                     innerException: duplicateKeyException);
 
             var expectedVideoMetadataDependencyValidationException =

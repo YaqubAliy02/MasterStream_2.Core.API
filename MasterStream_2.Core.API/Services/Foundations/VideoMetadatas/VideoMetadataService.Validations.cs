@@ -3,6 +3,8 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
+using System.Data;
+using MasterStream_2.Core.API.Brokers.DateTimes;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 
@@ -19,7 +21,9 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                 (Rule: IsInvalid(videoMetadata.Title), Parameter: nameof(videoMetadata.Title)),
                 (Rule: IsInvalid(videoMetadata.BlobPath), Parameter: nameof(videoMetadata.BlobPath)),
                 (Rule: IsInvalid(videoMetadata.CreatedDate), Parameter: nameof(videoMetadata.CreatedDate)),
-                (Rule: IsInvalid(videoMetadata.UpdatedDate), Parameter: nameof(videoMetadata.UpdatedDate)));
+                (Rule: IsInvalid(videoMetadata.UpdatedDate), Parameter: nameof(videoMetadata.UpdatedDate)),
+                (Rule: IsNotRecent(videoMetadata.CreatedDate), Parameter: nameof(videoMetadata.CreatedDate))
+                );
         }
 
         private void ValidateVideoMetadata(VideoMetadata videoMetadata)
@@ -30,6 +34,19 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             }
         }
 
+        public dynamic IsNotRecent(DateTimeOffset date) => new
+        {
+            Condition = IsDateNotRecent(date),
+            Message = "Date is not recent"
+        };
+
+        public bool IsDateNotRecent(DateTimeOffset date)
+        {
+            DateTimeOffset currentDateTime = this.dateTimeBroker.GetCurrentDateTimeOffset();
+            TimeSpan timeDifference = currentDateTime.Subtract(date);
+
+            return timeDifference.TotalSeconds is > 60 or 0;
+        }
         private dynamic IsInvalid(Guid id) => new
         {
             Condition = id == Guid.Empty,

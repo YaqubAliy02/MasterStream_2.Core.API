@@ -6,6 +6,7 @@
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 using Microsoft.Data.SqlClient;
+using STX.EFxceptions.Abstractions.Models.Exceptions;
 using Xeptions;
 
 namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
@@ -38,6 +39,27 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
                 throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
             }
+            catch(DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyExistVideoMetadataException =
+                    new AlreadyExistVideoMetadataException(
+                        message: "Video metadata already exist, please try again.",
+                        innerException: duplicateKeyException);
+
+                throw CreateAndLogDuplicateKeyException(alreadyExistVideoMetadataException);
+            }
+        }
+
+        private VideoMetadataDependencyValidationException CreateAndLogDuplicateKeyException(Xeption exception)
+        {
+            var videoMetadataDependencyValidationException =
+                new VideoMetadataDependencyValidationException(
+                    message: "Video metadata dependency error occured, fix the errors and try again.",
+                    innerException: exception);
+
+            this.loggingBroker.LogError(videoMetadataDependencyValidationException);
+
+            return videoMetadataDependencyValidationException;
         }
 
         private VideoMetadataDependencyException CreateAndLogCriticalDependencyException(FailedVideoMetadataStorageException failedVideoMetadataStorageException)
