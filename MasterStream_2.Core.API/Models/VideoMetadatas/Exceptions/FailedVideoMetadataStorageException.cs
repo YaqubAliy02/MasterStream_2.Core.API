@@ -7,9 +7,9 @@ using Xeptions;
 
 namespace MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions
 {
-    public class VideoMetadataValidationException : Xeption
+    public class FailedVideoMetadataStorageException : Xeption
     {
-        public VideoMetadataValidationException(string message, Exception innerException)
+        public FailedVideoMetadataStorageException(string message, Exception innerException)
         : base(message, innerException) { }
     }
 }

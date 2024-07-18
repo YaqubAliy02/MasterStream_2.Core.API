@@ -10,6 +10,6 @@ namespace MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions
     public class InvalidVideoMetadataException : Xeption
     {
         public InvalidVideoMetadataException(string message)
-            :base(message) { }
+            : base(message) { }
     }
 }

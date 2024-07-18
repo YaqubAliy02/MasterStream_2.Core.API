@@ -3,8 +3,10 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Force.DeepCloner;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using Moq;
 
@@ -17,10 +19,15 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
         public async Task ShouldAddVideoMetadataAsync()
         {
             //given 
-            VideoMetadata randomVideoMetadata = CreateRandomVideoMetadata();
+            DateTimeOffset randomDateTimeOffset = CreateRandomDateTimeOffset();
+            VideoMetadata randomVideoMetadata = CreateRandomVideoMetadata(randomDateTimeOffset);
             VideoMetadata inputVideoMetadata = randomVideoMetadata;
             VideoMetadata storageVideoMetadata = inputVideoMetadata;
-            VideoMetadata expectedVideoMetadata = storageVideoMetadata;
+            VideoMetadata expectedVideoMetadata = storageVideoMetadata.DeepClone();
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Returns(randomDateTimeOffset);
 
             this.storageBrokerMock.Setup(broker =>
                 broker.InsertVideoMetadataAsync(inputVideoMetadata)).
@@ -28,7 +35,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 
             //when
             VideoMetadata actualVideoMetadata =
-                await this.videoMetadataService.AddVideoMetadataAsync(inputVideoMetadata);
+            await this.videoMetadataService.AddVideoMetadataAsync(inputVideoMetadata);
 
             //then
             actualVideoMetadata.Should().BeEquivalentTo(expectedVideoMetadata);
@@ -38,6 +45,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                     Times.Once());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }

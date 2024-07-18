@@ -3,8 +3,6 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
@@ -55,13 +53,13 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
         [InlineData("")]
         [InlineData("  ")]
 
-        public async Task ShoudThrowValidationExceptionOnAddIfInputIsInvalidAndLogItAsync(
+        public async Task ShouldThrowValidationExceptionOnAddIfInputIsInvalidAndLogItAsync(
             string invalidText)
         {
-            //given  
+            //given
             var invalidVideoMetadata = new VideoMetadata
             {
-                Title = invalidText
+                Title = invalidText,
             };
 
             var invalidVideoMetadataException =
@@ -75,6 +73,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
             invalidVideoMetadataException.AddData(
                 key: nameof(VideoMetadata.Title),
                 values: "Text is required");
+
             invalidVideoMetadataException.AddData(
                 key: nameof(VideoMetadata.BlobPath),
                 values: "Text is required");
@@ -91,16 +90,17 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                 new VideoMetadataValidationException(
                     message: "Video metadata validation the error occured, fix errors and try again.",
                     innerException: invalidVideoMetadataException);
+
             //when
-            ValueTask<VideoMetadata> addVideoMetadata =
-                 this.videoMetadataService.AddVideoMetadataAsync(invalidVideoMetadata);
+            ValueTask<VideoMetadata> addVideoMetadataTask =
+                this.videoMetadataService.AddVideoMetadataAsync(invalidVideoMetadata);
 
             var actualVideoMetadataValidationException =
-                await Assert.ThrowsAsync<VideoMetadataValidationException>(addVideoMetadata.AsTask);
+                await Assert.ThrowsAsync<VideoMetadataValidationException>(addVideoMetadataTask.AsTask);
 
             //then
-            actualVideoMetadataValidationException.Should()
-                .BeEquivalentTo(expectedVideoMetadataValidationException);
+            actualVideoMetadataValidationException.Should().BeEquivalentTo(
+                expectedVideoMetadataValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
