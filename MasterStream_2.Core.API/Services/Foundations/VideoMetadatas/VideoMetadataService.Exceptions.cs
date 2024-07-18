@@ -49,6 +49,26 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
                 throw CreateAndLogDuplicateKeyException(alreadyExistVideoMetadataException);
             }
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                var lockedVideoMetadataException =
+                    new LockedVideoMetadataException(
+                        message: "Video metadata is locked, please try again",
+                        innerException: dbUpdateConcurrencyException);
+                throw CreateAndLogDependencyException(lockedVideoMetadataException);
+            }
+        }
+
+        private VideoMetadataDependencyValidationException CreateAndLogDependencyException(LockedVideoMetadataException lockedVideoMetadataException)
+        {
+            var videoMetadataDependencyValidationException =
+                new VideoMetadataDependencyValidationException(
+                    message: "Video metadata dependency error occured, fix the errors and try again.",
+                    innerException: lockedVideoMetadataException);
+
+            this.loggingBroker.LogError(videoMetadataDependencyValidationException);
+
+            return videoMetadataDependencyValidationException;
         }
 
         private VideoMetadataDependencyValidationException CreateAndLogDuplicateKeyException(Xeption exception)
