@@ -12,5 +12,5 @@ namespace MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions
         public VideoMetadataServiceException(string message, Xeption innerException)
          : base(message, innerException) { }
     }
-     
+
 }

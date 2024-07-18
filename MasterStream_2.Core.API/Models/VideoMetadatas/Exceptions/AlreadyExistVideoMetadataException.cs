@@ -10,6 +10,6 @@ namespace MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions
     public class AlreadyExistVideoMetadataException : Xeption
     {
         public AlreadyExistVideoMetadataException(string message, Exception innerException)
-         :base(message, innerException) { }
+         : base(message, innerException) { }
     }
 }
