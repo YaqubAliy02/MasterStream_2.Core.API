@@ -66,6 +66,27 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
                 throw CreateAndLogDependencyException(failedVideoMetadataStorageException);
             }
+            catch (Exception exception)
+            {
+                var failedVideoMetadataServiceException =
+                    new FailedVideoMetadataServiceException(
+                        message: "Unexpected error of Video Metadata occured",
+                        innerException: exception);
+
+                throw CreateAndLogVideoMetadataDependencyServiceErrorOccurs(failedVideoMetadataServiceException);
+            }
+        }
+
+        private VideoMetadataServiceException CreateAndLogVideoMetadataDependencyServiceErrorOccurs(Xeption exception)
+        {
+            var videoMetadataServiceException =
+                new VideoMetadataServiceException(
+                    message: "Unexpected service error occured. Contact support.",
+                    innerException: exception);
+
+            this.loggingBroker.LogError(videoMetadataServiceException);
+
+            return videoMetadataServiceException;
         }
 
         private Exception CreateAndLogDependencyException(Xeption exception)
