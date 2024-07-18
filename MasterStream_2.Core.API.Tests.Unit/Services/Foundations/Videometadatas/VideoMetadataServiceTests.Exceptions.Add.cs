@@ -209,5 +209,50 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowExceptionOnAddIfServiceErrorOccurs()
+        {
+            //given
+            VideoMetadata someVideoMetadata = CreateRandomVideoMetadata();
+            var exception = new Exception();
+
+            var failedVideoMetadataServiceException =
+                new FailedVideoMetadataServiceException(
+                    message: "Unexpected error of Video Metadata occured",
+                    innerException: exception);
+
+            var expectedVideoMetadataServiceException =
+                new VideoMetadataServiceException(
+                    message: "Unexpected service error occured. Contact support.",
+                    innerException: failedVideoMetadataServiceException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset()).Throws(exception);
+
+            //when
+            ValueTask<VideoMetadata> addVideoMetadataTask = 
+                this.videoMetadataService.AddVideoMetadataAsync(someVideoMetadata);
+
+            VideoMetadataServiceException actualVideoMetadataServiceException =
+                await Assert.ThrowsAsync<VideoMetadataServiceException>(addVideoMetadataTask.AsTask);
+
+            //then
+            actualVideoMetadataServiceException.Should()
+                .BeEquivalentTo(expectedVideoMetadataServiceException);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(), 
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedVideoMetadataServiceException))),
+                        Times.Once );
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
