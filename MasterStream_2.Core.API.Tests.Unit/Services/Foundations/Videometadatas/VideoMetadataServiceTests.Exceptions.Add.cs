@@ -9,6 +9,7 @@ using FluentAssertions;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using STX.EFxceptions.Abstractions.Models.Exceptions;
 
@@ -107,6 +108,56 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfDbCurrencyErrorOccursAndLogItAsync()
+        {
+            //given
+            VideoMetadata someVideoMetadata = CreateRandomVideoMetadata();
+            var dbUpdateConcurrencyException = new DbUpdateConcurrencyException();
+
+            var lockedVideoMetadataException =
+                new LockedVideoMetadataException(
+                    message: "Video metadata is locked, please try again",
+                    innerException: dbUpdateConcurrencyException);
+
+            var expectedVideoMetadataDependencyValidationException =
+                new VideoMetadataDependencyValidationException(
+                    message: "Video metadata dependency error occured, fix the errors and try again.",
+                    innerException: lockedVideoMetadataException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(dbUpdateConcurrencyException);
+
+            //when
+            ValueTask<VideoMetadata> addVideoMetadataTask =
+                 this.videoMetadataService.AddVideoMetadataAsync(someVideoMetadata);
+
+            VideoMetadataDependencyValidationException actualVideoMetadataDependencyValidationException =
+                await Assert.ThrowsAsync<VideoMetadataDependencyValidationException>(addVideoMetadataTask.AsTask);
+
+            //then
+            actualVideoMetadataDependencyValidationException.Should()
+                .BeEquivalentTo(expectedVideoMetadataDependencyValidationException);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertVideoMetadataAsync(someVideoMetadata),
+                    Times.Never);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedVideoMetadataDependencyValidationException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }

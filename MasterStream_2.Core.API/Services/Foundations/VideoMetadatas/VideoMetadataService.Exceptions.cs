@@ -6,6 +6,7 @@
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using STX.EFxceptions.Abstractions.Models.Exceptions;
 using Xeptions;
 
@@ -39,7 +40,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
                 throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
             }
-            catch(DuplicateKeyException duplicateKeyException)
+            catch (DuplicateKeyException duplicateKeyException)
             {
                 var alreadyExistVideoMetadataException =
                     new AlreadyExistVideoMetadataException(
