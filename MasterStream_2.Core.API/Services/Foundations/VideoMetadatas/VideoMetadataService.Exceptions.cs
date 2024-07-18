@@ -57,7 +57,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                         innerException: dbUpdateConcurrencyException);
                 throw CreateAndLogDependencyValidationException(lockedVideoMetadataException);
             }
-            catch(DbUpdateException dbUpdateException)
+            catch (DbUpdateException dbUpdateException)
             {
                 var failedVideoMetadataStorageException =
                     new FailedVideoMetadataStorageException(
