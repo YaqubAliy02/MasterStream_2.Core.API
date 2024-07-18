@@ -55,16 +55,37 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                     new LockedVideoMetadataException(
                         message: "Video metadata is locked, please try again",
                         innerException: dbUpdateConcurrencyException);
-                throw CreateAndLogDependencyException(lockedVideoMetadataException);
+                throw CreateAndLogDependencyValidationException(lockedVideoMetadataException);
+            }
+            catch(DbUpdateException dbUpdateException)
+            {
+                var failedVideoMetadataStorageException =
+                    new FailedVideoMetadataStorageException(
+                        message: "Failed video metadata storage error occured, please contact support.",
+                        innerException: dbUpdateException);
+
+                throw CreateAndLogDependencyException(failedVideoMetadataStorageException);
             }
         }
 
-        private VideoMetadataDependencyValidationException CreateAndLogDependencyException(LockedVideoMetadataException lockedVideoMetadataException)
+        private Exception CreateAndLogDependencyException(Xeption exception)
+        {
+            var videoMetadataDependencyException =
+                 new VideoMetadataDependencyException(
+                     message: "Video metadata dependency exception error occured, please contact support.",
+                     innerException: exception);
+
+            this.loggingBroker.LogError(videoMetadataDependencyException);
+
+            return videoMetadataDependencyException;
+        }
+
+        private VideoMetadataDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
             var videoMetadataDependencyValidationException =
                 new VideoMetadataDependencyValidationException(
                     message: "Video metadata dependency error occured, fix the errors and try again.",
-                    innerException: lockedVideoMetadataException);
+                    innerException: exception);
 
             this.loggingBroker.LogError(videoMetadataDependencyValidationException);
 
