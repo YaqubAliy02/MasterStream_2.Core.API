@@ -29,7 +29,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
         public ValueTask<VideoMetadata> AddVideoMetadataAsync(VideoMetadata videoMetadata) =>
             TryCatch(async () =>
             {
-                ValidateVideoMetadataOnAdd(videoMetadata);
+                ValidationVideoMetadataOnAdd(videoMetadata);
                 return await this.storageBroker.InsertVideoMetadataAsync(videoMetadata);
             });
     }

@@ -33,9 +33,8 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                     message: "Video metadata dependency error occured, fix the errors and try again.",
                     innerException: failedVideoMetadataStorageException);
 
-            this.storageBrokerMock.Setup(broker =>
-                broker.InsertVideoMetadataAsync(someVideoMetadata))
-                    .ThrowsAsync(sqlException);
+            this.dateTimeBrokerMock.Setup(broker => 
+                broker.GetCurrentDateTimeOffset()).Throws(sqlException);
 
             //when
             ValueTask<VideoMetadata> addVideoMetadata =
@@ -48,8 +47,8 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
             actualVideoMetadataDependencyException.Should()
                 .BeEquivalentTo(expectedVideoMetadataDependencyException);
 
-            this.storageBrokerMock.Verify(broker =>
-                broker.InsertVideoMetadataAsync(someVideoMetadata),
+            this.dateTimeBrokerMock.Verify(broker => 
+                broker.GetCurrentDateTimeOffset(),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -59,6 +58,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+
         }
 
         [Fact]
