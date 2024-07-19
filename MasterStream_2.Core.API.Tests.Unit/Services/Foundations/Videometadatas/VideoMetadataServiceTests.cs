@@ -4,6 +4,7 @@
 //--------------------------
 
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using MasterStream_2.Core.API.Brokers.DateTimes;
@@ -45,6 +46,15 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
             CreateRandomVideoMetadataFiller(dates: CreateRandomDateTimeOffset()).Create();
         private static VideoMetadata CreateRandomVideoMetadata(DateTimeOffset date) =>
             CreateRandomVideoMetadataFiller(dates: date).Create();
+
+        private IQueryable<VideoMetadata> CreateRandomVideoMetadatas()
+        {
+            return CreateRandomVideoMetadataFiller(dates: CreateRandomDateTimeOffset())
+                .Create(count: GetRandomNumber()).AsQueryable();
+        }
+
+        private static int GetRandomNumber() =>
+            new IntRange(min: 2, max: 10).GetValue();
 
         private static DateTimeOffset CreateRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
