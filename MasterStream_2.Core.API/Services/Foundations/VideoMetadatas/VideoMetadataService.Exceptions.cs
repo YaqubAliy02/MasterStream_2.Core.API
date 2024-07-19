@@ -86,12 +86,21 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             }
             catch(SqlException sqlException)
             {
-                FailedVideoMetadataStorageException failedVideoMetadataStorageException =
+                var failedVideoMetadataStorageException =
                     new FailedVideoMetadataStorageException(
                         message: "Failed Video Metadata storage error occured, please contact support.",
                         innerException: sqlException);
 
                 throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
+            }
+            catch(Exception exception)
+            {
+                var failedVideoMetadataServiceException =
+                    new FailedVideoMetadataServiceException(
+                        message: "Unexpected error of Video Metadata occured.",
+                        innerException: exception);
+
+                throw CreateAndLogVideoMetadataDependencyServiceErrorOccurs(failedVideoMetadataServiceException);
             }
         }
 

@@ -70,7 +70,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 
             VideoMetadataServiceException expectedVideoMetadataServiceException =
                 new VideoMetadataServiceException(
-                    message: "Unexpected service error occured, Contact support.",
+                    message: "Unexpected service error occured. Contact support.",
                     innerException: failedVideoMetadataServiceException);
 
             this.storageBrokerMock.Setup(broker =>
