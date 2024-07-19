@@ -11,7 +11,6 @@ using MasterStream_2.Core.API.Brokers.DateTimes;
 using MasterStream_2.Core.API.Brokers.Loggings;
 using MasterStream_2.Core.API.Brokers.Storages;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
-using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 using MasterStream_2.Core.API.Services.Foundations.VideoMetadatas;
 using Microsoft.Data.SqlClient;
 using Moq;
