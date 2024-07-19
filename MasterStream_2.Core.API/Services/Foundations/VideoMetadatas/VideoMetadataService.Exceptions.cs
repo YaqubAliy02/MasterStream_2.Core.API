@@ -15,7 +15,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
     public partial class VideoMetadataService
     {
         private delegate ValueTask<VideoMetadata> ReturningVideoMetadataFunction();
-
+        private delegate IQueryable<VideoMetadata> ReturningVideoMetadatasFunction();
         private async ValueTask<VideoMetadata> TryCatch(
             ReturningVideoMetadataFunction returningVideoMetadataFunction)
         {
@@ -71,6 +71,33 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                 var failedVideoMetadataServiceException =
                     new FailedVideoMetadataServiceException(
                         message: "Unexpected error of Video Metadata occured",
+                        innerException: exception);
+
+                throw CreateAndLogVideoMetadataDependencyServiceErrorOccurs(failedVideoMetadataServiceException);
+            }
+        }
+
+        private IQueryable<VideoMetadata> TryCatch(
+            ReturningVideoMetadatasFunction returningVideoMetadatasFunction)
+        {
+            try
+            {
+                return returningVideoMetadatasFunction();
+            }
+            catch (SqlException sqlException)
+            {
+                var failedVideoMetadataStorageException =
+                    new FailedVideoMetadataStorageException(
+                        message: "Failed Video Metadata storage error occured, please contact support.",
+                        innerException: sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
+            }
+            catch (Exception exception)
+            {
+                var failedVideoMetadataServiceException =
+                    new FailedVideoMetadataServiceException(
+                        message: "Unexpected error of Video Metadata occured.",
                         innerException: exception);
 
                 throw CreateAndLogVideoMetadataDependencyServiceErrorOccurs(failedVideoMetadataServiceException);

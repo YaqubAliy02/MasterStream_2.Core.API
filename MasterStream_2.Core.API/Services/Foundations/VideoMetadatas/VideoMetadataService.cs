@@ -32,5 +32,11 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                 ValidationVideoMetadataOnAdd(videoMetadata);
                 return await this.storageBroker.InsertVideoMetadataAsync(videoMetadata);
             });
+
+        public IQueryable<VideoMetadata> RetrieveAllVideoMetadatas() =>
+            TryCatch(() =>
+            {
+                return this.storageBroker.SellectAllVideoMetadatas();
+            });
     }
 }
