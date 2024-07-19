@@ -24,14 +24,14 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                 broker.SellectAllVideoMetadatas()).Returns(storageVideoMetadata);
 
             //when
-            IQueryable<VideoMetadata> actualVideoMetadata = 
+            IQueryable<VideoMetadata> actualVideoMetadata =
                 this.videoMetadataService.RetrieveAllVideoMetadatas();
 
             //then
             actualVideoMetadata.Should().BeEquivalentTo(expectedVideoMetadata);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.SellectAllVideoMetadatas(), 
+                broker.SellectAllVideoMetadatas(),
                     Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();

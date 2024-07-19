@@ -34,7 +34,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                     message: "Video metadata dependency error occured, fix the errors and try again.",
                     innerException: failedVideoMetadataStorageException);
 
-            this.dateTimeBrokerMock.Setup(broker => 
+            this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset()).Throws(sqlException);
 
             //when
@@ -48,7 +48,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
             actualVideoMetadataDependencyException.Should()
                 .BeEquivalentTo(expectedVideoMetadataDependencyException);
 
-            this.dateTimeBrokerMock.Verify(broker => 
+            this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTimeOffset(),
                     Times.Once);
 
@@ -182,7 +182,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                     .Throws(dbUpdateException);
 
             //when
-            ValueTask<VideoMetadata> addVideoMetadataTask = 
+            ValueTask<VideoMetadata> addVideoMetadataTask =
                  this.videoMetadataService.AddVideoMetadataAsync(someVideoMetadata);
 
             VideoMetadataDependencyException actaulVideoDependencyException =
@@ -196,9 +196,9 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                 broker.GetCurrentDateTimeOffset(),
                     Times.Once);
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedVideoMetadataDependencyException))), 
+                    expectedVideoMetadataDependencyException))),
                         Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
@@ -231,7 +231,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                 broker.GetCurrentDateTimeOffset()).Throws(exception);
 
             //when
-            ValueTask<VideoMetadata> addVideoMetadataTask = 
+            ValueTask<VideoMetadata> addVideoMetadataTask =
                 this.videoMetadataService.AddVideoMetadataAsync(someVideoMetadata);
 
             VideoMetadataServiceException actualVideoMetadataServiceException =
@@ -242,13 +242,13 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
                 .BeEquivalentTo(expectedVideoMetadataServiceException);
 
             this.dateTimeBrokerMock.Verify(broker =>
-                broker.GetCurrentDateTimeOffset(), 
+                broker.GetCurrentDateTimeOffset(),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedVideoMetadataServiceException))),
-                        Times.Once );
+                        Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();

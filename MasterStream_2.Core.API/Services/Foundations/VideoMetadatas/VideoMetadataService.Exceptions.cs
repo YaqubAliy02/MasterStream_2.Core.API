@@ -82,9 +82,9 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
         {
             try
             {
-               return returningVideoMetadatasFunction();
+                return returningVideoMetadatasFunction();
             }
-            catch(SqlException sqlException)
+            catch (SqlException sqlException)
             {
                 var failedVideoMetadataStorageException =
                     new FailedVideoMetadataStorageException(
@@ -93,7 +93,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
                 throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 var failedVideoMetadataServiceException =
                     new FailedVideoMetadataServiceException(
