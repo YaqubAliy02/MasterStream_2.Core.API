@@ -35,7 +35,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
         public IQueryable<VideoMetadata> RetrieveAllVideoMetadatas()
         {
-            throw new NotImplementedException();
+            return this.storageBroker.SellectAllVideoMetadatas();
         }
     }
 }
