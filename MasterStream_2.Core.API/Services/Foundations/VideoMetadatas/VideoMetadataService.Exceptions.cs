@@ -15,7 +15,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
     public partial class VideoMetadataService
     {
         private delegate ValueTask<VideoMetadata> ReturningVideoMetadataFunction();
-
+        private delegate IQueryable<VideoMetadata> ReturningVideoMetadatasFunction();
         private async ValueTask<VideoMetadata> TryCatch(
             ReturningVideoMetadataFunction returningVideoMetadataFunction)
         {
@@ -74,6 +74,24 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                         innerException: exception);
 
                 throw CreateAndLogVideoMetadataDependencyServiceErrorOccurs(failedVideoMetadataServiceException);
+            }
+        }
+
+        private IQueryable<VideoMetadata> TryCatch(
+            ReturningVideoMetadatasFunction returningVideoMetadatasFunction)
+        {
+            try
+            {
+               return returningVideoMetadatasFunction();
+            }
+            catch(SqlException sqlException)
+            {
+                FailedVideoMetadataStorageException failedVideoMetadataStorageException =
+                    new FailedVideoMetadataStorageException(
+                        message: "Failed Video Metadata storage error occured, please contact support.",
+                        innerException: sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
             }
         }
 
