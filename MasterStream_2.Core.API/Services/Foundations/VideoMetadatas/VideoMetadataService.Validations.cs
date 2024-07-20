@@ -3,6 +3,7 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
+using System.Data;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 
@@ -30,14 +31,6 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                 );
         }
 
-        private static dynamic IsNotSame(
-            DateTimeOffset firstDate,
-            DateTimeOffset secondDate,
-            string secondDateName) => new
-            {
-                Condition = firstDate != secondDate,
-                Message = $"Date is not same as {secondDateName}"
-            };
 
         private void ValidateVideoMetadata(VideoMetadata videoMetadata)
         {
@@ -47,6 +40,27 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                     message: "Video metadata is null");
             }
         }
+
+        private void ValidateVideoMetadataId(Guid videoMetadataId) =>
+            Validate((Rule: IsInvalid(videoMetadataId), Parameter: nameof(VideoMetadata.Id)));
+
+        private void ValidationStorageVideoMetadata(VideoMetadata mayBeVideoMetadata, Guid videoMetadataId)
+        {
+           if (mayBeVideoMetadata is null)
+            {
+                throw new NotFoundVideoMetadataException(
+                    message: $"Could not find video metadata with id {videoMetadataId}");
+            }
+        }
+
+        private static dynamic IsNotSame(
+            DateTimeOffset firstDate,
+            DateTimeOffset secondDate,
+            string secondDateName) => new
+            {
+                Condition = firstDate != secondDate,
+                Message = $"Date is not same as {secondDateName}"
+            };
 
         private dynamic IsNotRecent(DateTimeOffset date) => new
         {
