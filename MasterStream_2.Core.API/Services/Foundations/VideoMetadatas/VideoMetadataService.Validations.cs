@@ -3,7 +3,6 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using System.Data;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 
@@ -33,7 +32,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
         private void ValidateVideoMetadataOnModify(VideoMetadata videoMetadata)
         {
-           ValidateVideoMetadataNotNull(videoMetadata);
+            ValidateVideoMetadataNotNull(videoMetadata);
 
             Validate(
                 (Rule: IsInvalid(videoMetadata.Id), Parameter: nameof(VideoMetadata.Id)),

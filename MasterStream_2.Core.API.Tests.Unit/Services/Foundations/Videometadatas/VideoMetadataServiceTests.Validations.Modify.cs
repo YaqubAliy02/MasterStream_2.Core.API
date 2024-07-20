@@ -3,12 +3,12 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
-using MasterStream_2.Core.API.Models.VideoMetadatas;
-using Moq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Force.DeepCloner;
+using MasterStream_2.Core.API.Models.VideoMetadatas;
+using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
+using Moq;
 
 namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 {
