@@ -39,9 +39,12 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
                 return this.storageBroker.SellectAllVideoMetadatas();
             });
 
-        public ValueTask<VideoMetadata> RetrieveVideoMetadataByIdAsync(Guid videoMetadataId)
+        public async ValueTask<VideoMetadata> RetrieveVideoMetadataByIdAsync(Guid videoMetadataId)
         {
-            throw new NotImplementedException();
+            VideoMetadata mayBeVideoMetadata =
+                    await this.storageBroker.SellectVideoMetadataByIdAsync(videoMetadataId);
+
+            return mayBeVideoMetadata;
         }
     }
 }
