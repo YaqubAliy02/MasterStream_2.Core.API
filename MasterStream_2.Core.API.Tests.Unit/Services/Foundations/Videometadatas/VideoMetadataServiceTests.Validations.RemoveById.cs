@@ -29,7 +29,7 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 
             var expectedVideoMetadataValidationException =
                 new VideoMetadataValidationException(
-                    message: "Video metadata validation error occured, fix errors and try again",
+                    message: "Video metadata validation the error occured, fix errors and try again.",
                     innerException: invalidVideoMetadataException);
 
             // when
