@@ -52,5 +52,9 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             return mayBeVideoMetadata;
 
         });
+        public ValueTask<VideoMetadata> ModifyVideoMetadataAsync(VideoMetadata videoMetadata)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
