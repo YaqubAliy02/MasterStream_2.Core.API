@@ -64,5 +64,10 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
             return await this.storageBroker.UpdateVideoMetadataAsync(videoMetadata);
         });
+
+        public ValueTask<VideoMetadata> RemoveVideoMetadataByIdAsync(Guid videoMetadataId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
