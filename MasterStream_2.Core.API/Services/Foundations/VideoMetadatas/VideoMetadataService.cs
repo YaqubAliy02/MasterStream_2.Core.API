@@ -52,12 +52,17 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
             return mayBeVideoMetadata;
 
         });
-        public async ValueTask<VideoMetadata> ModifyVideoMetadataAsync(VideoMetadata videoMetadata)
+        public ValueTask<VideoMetadata> ModifyVideoMetadataAsync(VideoMetadata videoMetadata) =>
+        TryCatch(async () =>
         {
+            ValidateVideoMetadataOnModify(videoMetadata);
+
             VideoMetadata maybeVideoMetadata =
                     await this.storageBroker.SellectVideoMetadataByIdAsync(videoMetadata.Id);
 
+            ValidateAgainstStorageOnModify(videoMetadata, maybeVideoMetadata);
+
             return await this.storageBroker.UpdateVideoMetadataAsync(videoMetadata);
-        }
+        });
     }
 }

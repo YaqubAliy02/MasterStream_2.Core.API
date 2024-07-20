@@ -18,11 +18,11 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
         {
             // given
             VideoMetadata nullVideoMetadata = null;
-            var nullVideoMetadataException = new NullVideoMetadataException("Video Metadata is null.");
+            var nullVideoMetadataException = new NullVideoMetadataException("Video metadata is null");
 
             var expectedVideoMetadataValidationException =
                 new VideoMetadataValidationException(
-                    message: "Video metadata validation error occured, fix errors and try again",
+                    message: "Video metadata validation the error occured, fix errors and try again.",
                     innerException: nullVideoMetadataException);
 
             // when
