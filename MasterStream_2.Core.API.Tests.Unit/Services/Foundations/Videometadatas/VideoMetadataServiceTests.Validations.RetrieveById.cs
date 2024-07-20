@@ -57,5 +57,49 @@ namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowNotFoundExceptionOnRetrieveByIdIfVideoMetadataIsNotFoundAndLogItAsync()
+        {
+            //given
+            Guid someVideoMetadataId = Guid.NewGuid();
+            VideoMetadata noVideoMetadata = null;
+
+            NotFoundVideoMetadataException notFoundVidoeMetadataException =
+                new NotFoundVideoMetadataException($"Could not find video metadata with id {someVideoMetadataId}");
+
+            VideoMetadataValidationException expectedVideoMetadataValidationException =
+                new VideoMetadataValidationException(
+                    message: "Video metadata validation the error occured, fix errors and try again.",
+                        notFoundVidoeMetadataException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SellectVideoMetadataByIdAsync(It.IsAny<Guid>()))
+                    .ReturnsAsync(noVideoMetadata);
+
+            //when
+            ValueTask<VideoMetadata> retrieveByIdVideoMetadataTask =
+                this.videoMetadataService.RetrieveVideoMetadataByIdAsync(someVideoMetadataId);
+
+            VideoMetadataValidationException actualVideoMetadataValidationException =
+                await Assert.ThrowsAsync<VideoMetadataValidationException>(
+                    retrieveByIdVideoMetadataTask.AsTask);
+
+            //then
+            actualVideoMetadataValidationException.Should().BeEquivalentTo(
+                expectedVideoMetadataValidationException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SellectVideoMetadataByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedVideoMetadataValidationException))),
+                    Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
