@@ -19,5 +19,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
         IQueryable<VideoMetadata> RetrieveAllVideoMetadatas();
         ValueTask<VideoMetadata> RetrieveVideoMetadataByIdAsync(Guid videoMetadataId);
         ValueTask<VideoMetadata> ModifyVideoMetadataAsync(VideoMetadata videoMetadata);
+        ValueTask<VideoMetadata> RemoveVideoMetadataByIdAsync(Guid videoMetadataId);
+
     }
 }
