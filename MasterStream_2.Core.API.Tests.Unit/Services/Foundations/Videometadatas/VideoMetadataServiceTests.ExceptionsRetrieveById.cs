@@ -3,13 +3,13 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
+using System;
+using System.Threading.Tasks;
+using FluentAssertions;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
+using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 using Microsoft.Data.SqlClient;
 using Moq;
-using System.Threading.Tasks;
-using System;
-using FluentAssertions;
 
 namespace MasterStream_2.Core.API.Tests.Unit.Services.Foundations.Videometadatas
 {

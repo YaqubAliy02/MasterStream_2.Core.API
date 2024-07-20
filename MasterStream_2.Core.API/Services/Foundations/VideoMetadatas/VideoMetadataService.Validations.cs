@@ -3,7 +3,6 @@
 // ALL RIGHTS RESERVED      
 //--------------------------
 
-using System.Data;
 using MasterStream_2.Core.API.Models.VideoMetadatas;
 using MasterStream_2.Core.API.Models.VideoMetadatas.Exceptions;
 
@@ -46,7 +45,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
         private void ValidationStorageVideoMetadata(VideoMetadata mayBeVideoMetadata, Guid videoMetadataId)
         {
-           if (mayBeVideoMetadata is null)
+            if (mayBeVideoMetadata is null)
             {
                 throw new NotFoundVideoMetadataException(
                     message: $"Could not find video metadata with id {videoMetadataId}");

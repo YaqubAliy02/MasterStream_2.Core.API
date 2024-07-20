@@ -40,7 +40,7 @@ namespace MasterStream_2.Core.API.Services.Foundations.VideoMetadatas
 
                 throw CreateAndLogCriticalDependencyException(failedVideoMetadataStorageException);
             }
-            catch(NotFoundVideoMetadataException notFoundVideoMetadataException)
+            catch (NotFoundVideoMetadataException notFoundVideoMetadataException)
             {
                 throw CreateAndLogValidationException(notFoundVideoMetadataException);
             }
