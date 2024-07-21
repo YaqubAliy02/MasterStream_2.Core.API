@@ -9,7 +9,7 @@ using MasterStream_2.Core.API.Models.Photos;
 
 namespace MasterStream_2.Core.API.Brokers.Blobs
 {
-    public partial class BlobBroker : IBlobBroker
+    public partial class BlobBroker
     {
         public async Task<string> UploadPhotoAsync(Stream fileStream, string fileName, string contentType) =>
            await UploadAsync(fileStream, fileName, contentType);
