@@ -19,6 +19,7 @@ namespace MasterStream_2.Core.API.Brokers.Blobs
             blobConnectionString = configuration["AzureBlobStorage: ConnectionString"];
             photoContainerName = configuration["AzureBlobStorage: PhotoContainerName"];
         }
+
         public async Task<string> UploadAsync(Stream fileStream, string fileName, string contentType)
         {
             var extension = Path.GetExtension(fileName).ToLower();
